@@ -9,31 +9,25 @@ import {
   editTodo,
   toggleTodo,
 } from "@/actions/todoActions";
+import { lusitana } from "@/app/ui/fonts";
 
 interface Props {
   todos: todoType[];
 }
 
 const Todos: FC<Props> = ({ todos }) => {
-  // State to manage the list of todo items
   const [todoItems, setTodoItems] = useState<todoType[]>(todos);
-
-  // Function to create a new todo item
   const createTodo = (text: string) => {
     const id = (todoItems.at(-1)?.id || 0) + 1;
     addTodo(id, text);
     setTodoItems((prev) => [...prev, { id: id, text, done: false }]);
   };
-
-  // Function to change the text of a todo item
   const changeTodoText = (id: number, text: string) => {
     setTodoItems((prev) =>
       prev.map((todo) => (todo.id === id ? { ...todo, text } : todo))
     );
     editTodo(id, text);
   };
-
-  // Function to toggle the "done" status of a todo item
   const toggleIsTodoDone = (id: number) => {
     setTodoItems((prev) =>
       prev.map((todo) =>
@@ -42,19 +36,17 @@ const Todos: FC<Props> = ({ todos }) => {
     );
     toggleTodo(id);
   };
-
-  // Function to delete a todo item
   const deleteTodoItem = (id: number) => {
     setTodoItems((prev) => prev.filter((todo) => todo.id !== id));
     deleteTodo(id);
   };
-
-  // Rendering the Todo List component
   return (
     <main className="flex mx-auto max-w-xl w-full min-h-screen flex-col items-center p-16">
-      <div className="text-5xl font-medium">To-do app</div>
+      <div className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">
+        To-do app
+      </div>
+      <AddTodo createTodo={createTodo} />
       <div className="w-full flex flex-col mt-8 gap-2">
-        {/* Mapping through todoItems and rendering Todo component for each */}
         {todoItems.map((todo) => (
           <Todo
             key={todo.id}
@@ -65,8 +57,6 @@ const Todos: FC<Props> = ({ todos }) => {
           />
         ))}
       </div>
-      {/* Adding Todo component for creating new todos */}
-      <AddTodo createTodo={createTodo} />
     </main>
   );
 };
