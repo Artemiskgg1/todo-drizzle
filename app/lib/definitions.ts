@@ -3,3 +3,8 @@ export type todoType = {
   text: string;
   done: boolean;
 };
+export type groupType = {
+  id: number;
+  name: string;
+  groupTodo: todoType[];
+};

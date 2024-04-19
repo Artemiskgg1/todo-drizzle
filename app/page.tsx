@@ -1,4 +1,5 @@
 import { getData } from "@/actions/todoActions";
+import { Groups } from "@/app/ui/group/Groups";
 import Todos from "@/app/ui/Todos";
 export default async function Home() {
   const data = await getData();
