@@ -41,10 +41,7 @@ const Todos: FC<Props> = ({ todos }) => {
     deleteTodo(id);
   };
   return (
-    <main className="flex mx-auto max-w-xl w-full min-h-screen flex-col items-center p-16">
-      <div className="text-4xl sm:text-7xl font-bold relative z-20 bg-clip-text text-transparent bg-gradient-to-b from-neutral-200 to-neutral-500 py-8">
-        To-do app
-      </div>
+    <main className="flex mx-auto max-w-xl w-full h-screen flex-col items-center p-8">
       <AddTodo createTodo={createTodo} />
       <div className="w-full flex flex-col mt-8 gap-2">
         {todoItems.map((todo) => (
