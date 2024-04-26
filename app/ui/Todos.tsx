@@ -10,7 +10,7 @@ import {
   toggleTodo,
 } from "@/actions/todoActions";
 import { lusitana } from "@/app/ui/fonts";
-
+import GroupTodoModal from "./GroupTodoModal";
 interface Props {
   todos: todoType[];
 }
@@ -40,21 +40,35 @@ const Todos: FC<Props> = ({ todos }) => {
     setTodoItems((prev) => prev.filter((todo) => todo.id !== id));
     deleteTodo(id);
   };
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
-    <main className="flex mx-auto max-w-xl w-full h-screen flex-col items-center p-8">
-      <AddTodo createTodo={createTodo} />
-      <div className="w-full flex flex-col mt-8 gap-2">
-        {todoItems.map((todo) => (
-          <Todo
-            key={todo.id}
-            todo={todo}
-            changeTodoText={changeTodoText}
-            toggleIsTodoDone={toggleIsTodoDone}
-            deleteTodoItem={deleteTodoItem}
-          />
-        ))}
-      </div>
-    </main>
+    <>
+      <main className="flex mx-auto max-w-xl w-full h-screen flex-col items-center p-8">
+        <GroupTodoModal
+          todos={todos}
+          isOpen={isModalOpen}
+          onClose={() => setIsModalOpen(false)}
+        />
+        <AddTodo createTodo={createTodo} />
+        <div className="w-full flex flex-col mt-8 gap-2">
+          {todoItems.map((todo) => (
+            <Todo
+              key={todo.id}
+              todo={todo}
+              changeTodoText={changeTodoText}
+              toggleIsTodoDone={toggleIsTodoDone}
+              deleteTodoItem={deleteTodoItem}
+            />
+          ))}
+        </div>
+        <button
+          onClick={() => setIsModalOpen(true)}
+          className="p-2 bg-zinc-700 rounded-lg hover:bg-slate-700"
+        >
+          Create Group
+        </button>
+      </main>
+    </>
   );
 };
 
