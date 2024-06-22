@@ -1,1 +1,0 @@
-DROP TABLE "todo_to_groups";
