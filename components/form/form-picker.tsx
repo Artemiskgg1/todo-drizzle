@@ -9,15 +9,18 @@ import Image from "next/image";
 import { defaultImages } from "@/constants/images";
 import Link from "next/link";
 import { FormErrors } from "./form-errors";
+
 interface FormPickerProps {
   id: string;
   errors?: Record<string, string[] | undefined>;
 }
+
 export const FormPicker = ({ id, errors }: FormPickerProps) => {
   const { pending } = useFormStatus();
   const [images, setImages] = useState<Array<Record<string, any>>>([]);
   const [isLoading, setIsLoading] = useState(true);
-  const [selectedImageId, setSelectedImageId] = useState(null);
+  const [selectedImageId, setSelectedImageId] = useState<string | null>(null);
+
   useEffect(() => {
     const fetchImages = async () => {
       try {
@@ -40,6 +43,7 @@ export const FormPicker = ({ id, errors }: FormPickerProps) => {
     };
     fetchImages();
   }, []);
+
   if (isLoading) {
     return (
       <div className="p-6 flex items-center justify-center">
@@ -47,6 +51,11 @@ export const FormPicker = ({ id, errors }: FormPickerProps) => {
       </div>
     );
   }
+
+  const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    setSelectedImageId(event.target.value.split(" | ")[0]);
+  };
+
   return (
     <div className="relative">
       <div className="grid grid-cols-3 gap-2 mb-2">
@@ -64,12 +73,13 @@ export const FormPicker = ({ id, errors }: FormPickerProps) => {
           >
             <input
               type="radio"
-              id={id}
+              id={`${id}-${image.id}`}
               name={id}
               className="hidden"
               checked={selectedImageId === image.id}
               disabled={pending}
               value={`${image.id} | ${image.urls.thumb} |${image.urls.full}|${image.links.html} | ${image.user.name}`}
+              onChange={handleChange}
             />
             <Image
               src={image.urls.thumb}
